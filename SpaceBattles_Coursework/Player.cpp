@@ -12,6 +12,7 @@ Player::Player(SDL_Renderer* renderer)
 Player::~Player()
 {
 	SDL_DestroyTexture(texture);
+
 }
 
 void Player::update()
