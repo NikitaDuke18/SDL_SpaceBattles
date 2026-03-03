@@ -4,6 +4,12 @@ Game::Game()
 {
 	width = 800;
 	height = 640;
+
+	// FPS
+	freq = SDL_GetPerformanceFrequency();
+	last = SDL_GetPerformanceCounter();
+	frameCount = 0;
+	fpsTimer = SDL_GetPerformanceCounter();
 }
 
 Game::~Game()
@@ -42,13 +48,22 @@ SDL_AppResult Game::SDL_AppEvent(SDL_Event* event)
 
 SDL_AppResult Game::SDL_AppIterate()
 {
-	SDL_SetRenderDrawColor(renderer, 30, 30, 30, 255);
-	SDL_RenderClear(renderer);
+	now = SDL_GetPerformanceCounter();
+	delta = (double)(now - last) / freq;
 
-	player->update();
-	player->draw(renderer);
+	if (delta >= frameDuraction) {
+		update();
+		draw();
+		last = now;
+		frameCount++;
+	}
 
-	SDL_RenderPresent(renderer);
+	fpsElapsed = (double)(now - fpsTimer) / freq;
+	if (fpsElapsed >= 1.0) {
+		SDL_Log("FPS: %i", frameCount);
+		frameCount = 0;
+		fpsTimer = now;
+	}
 
 	return SDL_APP_CONTINUE;
 }
@@ -57,4 +72,19 @@ void Game::SDL_AppQuit()
 {
 	delete player;
 	delete inputHandler;
+}
+
+void Game::update()
+{
+	player->update();
+}
+
+void Game::draw()
+{
+	SDL_SetRenderDrawColor(renderer, 30, 30, 30, 255);
+	SDL_RenderClear(renderer);
+
+	player->draw(renderer);
+
+	SDL_RenderPresent(renderer);
 }

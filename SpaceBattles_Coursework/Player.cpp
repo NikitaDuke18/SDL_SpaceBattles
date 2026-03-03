@@ -6,7 +6,7 @@ Player::Player(SDL_Renderer* renderer)
 	SDL_SetTextureScaleMode(texture, SDL_SCALEMODE_NEAREST);
 	src = {0, 0, 8, 16};
 	dest = { 0, 0, src.w * 4, src.h * 4  };
-	speed = 1;
+	speed = 4;
 }
 
 Player::~Player()
