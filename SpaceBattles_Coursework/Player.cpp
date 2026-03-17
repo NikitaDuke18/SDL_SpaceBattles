@@ -5,7 +5,8 @@ Player::Player(SDL_Renderer* renderer)
 	texture = IMG_LoadTexture(renderer, "assets/entity/player/player_atlas.png");
 	SDL_SetTextureScaleMode(texture, SDL_SCALEMODE_NEAREST);
 	src = {0, 0, 8, 16};
-	dest = { 0, 0, src.w * 4, src.h * 4  };
+	scale = 4;
+	dest = { 0, 0, src.w * scale, src.h * scale };
 	speed = 4;
 }
 
@@ -29,9 +30,27 @@ void Player::update()
 	if (right) {
 		dest.x += speed;
 	}
+
+	animationPlay();
 }
 
 void Player::draw(SDL_Renderer* renderer)
 {
 	SDL_RenderTexture(renderer, texture, &src, &dest);
+}
+
+void Player::animationPlay()
+{
+	if (left)
+	{
+		src.x = 0; // firstTexture
+	}
+	else if (right)
+	{
+		src.x = 8; // second Texture
+	}
+	else if (up || down)
+	{
+		src.x = 16; // third Texture
+	}
 }

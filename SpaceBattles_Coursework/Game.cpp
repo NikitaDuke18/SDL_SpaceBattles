@@ -2,8 +2,8 @@
 
 Game::Game()
 {
-	width = 800;
-	height = 640;
+	width = 800; // 800
+	height = 640; // 640
 
 	// FPS
 	freq = SDL_GetPerformanceFrequency();
@@ -29,6 +29,7 @@ SDL_AppResult Game::SDL_AppInit()
 	}
 
 	player = new Player(renderer);
+	battle = new Battle(NULL, renderer, player, width, height, FPS);
 	inputHandler = new InputHandler(player);
 
 	return SDL_APP_CONTINUE;
@@ -76,7 +77,7 @@ void Game::SDL_AppQuit()
 
 void Game::update()
 {
-	player->update();
+	battle->update();
 }
 
 void Game::draw()
@@ -84,7 +85,7 @@ void Game::draw()
 	SDL_SetRenderDrawColor(renderer, 30, 30, 30, 255);
 	SDL_RenderClear(renderer);
 
-	player->draw(renderer);
+	battle->draw();
 
 	SDL_RenderPresent(renderer);
 }

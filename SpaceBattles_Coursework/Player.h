@@ -11,6 +11,8 @@ public:
 	void update() override;
 	void draw(SDL_Renderer* renderer) override;
 
+	void animationPlay();
+
 	bool getUp() { return up; };
 	void setUp(bool up) { this->up = up; };
 
@@ -23,6 +25,6 @@ public:
 	bool getRight() { return right; };
 	void setRight(bool right) { this->right = right; };
 private:
-	SDL_FRect src;
+	
 	bool up, down, left, right;
 };

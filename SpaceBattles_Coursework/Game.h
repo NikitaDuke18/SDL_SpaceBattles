@@ -1,6 +1,7 @@
 #pragma once
 
 #include <SDL3/SDL.h>
+#include "Battle.h"
 #include "InputHandler.h"
 #include "Player.h"
 
@@ -36,6 +37,7 @@ private:
 	double delta;
 	double fpsElapsed;
 
+	Battle* battle = nullptr;
 	InputHandler* inputHandler = nullptr;
 	Player* player = nullptr;
 };
