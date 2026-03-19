@@ -1,19 +1,37 @@
 #include "Player.h"
 
-Player::Player(SDL_Renderer* renderer)
+Player::Player(SDL_Renderer* renderer, SDL_FPoint position)
 {
 	texture = IMG_LoadTexture(renderer, "assets/entity/player/player_atlas.png");
 	SDL_SetTextureScaleMode(texture, SDL_SCALEMODE_NEAREST);
 	src = {0, 0, 8, 16};
 	scale = 4;
-	dest = { 0, 0, src.w * scale, src.h * scale };
+	dest = { position.x, position.y, src.w * scale, src.h * scale };
 	speed = 4;
+	HP = 3;
+
+	bulletsSize = 40;
+	bullets = new Bullet*[bulletsSize];
+	for (int i = 0; i < bulletsSize; i++)
+	{
+		bullets[i] = nullptr;
+	}
+	numberOfShots = 20;
 }
 
 Player::~Player()
 {
 	SDL_DestroyTexture(texture);
 
+	for (int i = 0; i < bulletsSize; i++)
+	{
+		if (bullets[i] != nullptr)
+		{
+			delete bullets[i];
+			bullets[i] = nullptr;
+		}
+	}
+	delete[] bullets;
 }
 
 void Player::update()
@@ -32,11 +50,32 @@ void Player::update()
 	}
 
 	animationPlay();
+
+	for (int i = 0; i < bulletsSize; i++)
+	{
+		if (bullets[i] != nullptr)
+		{
+			bullets[i]->update();
+
+			if (checkBulletOut(i))
+			{
+				deleteBullet(i);
+			}
+		}
+	}
 }
 
 void Player::draw(SDL_Renderer* renderer)
 {
 	SDL_RenderTexture(renderer, texture, &src, &dest);
+
+	for (int i = 0; i < bulletsSize; i++)
+	{
+		if (bullets[i] != nullptr)
+		{
+			bullets[i]->draw(renderer);
+		}
+	}
 }
 
 void Player::animationPlay()
@@ -53,4 +92,70 @@ void Player::animationPlay()
 	{
 		src.x = 16; // third Texture
 	}
+}
+
+bool Player::lostHP(int damage)
+{
+	HP -= 1;
+	if (HP <= 0)
+	{
+		return true;
+	}
+	SDL_Log("HP: %i", HP);
+	return false;
+}
+
+void Player::shoot(SDL_Renderer* renderer, int seconds)
+{
+	BulletType type;
+
+	if (seconds < 1)
+	{
+		type = BULLET_1;
+	}
+	else if (seconds <= 1)
+	{
+		type = BULLET_2;
+	}
+	else
+	{
+		type = BULLET_3;
+	}
+
+	for (int i = 0; i < bulletsSize; i++)
+	{
+		if (bullets[i] == nullptr)
+		{
+			bullets[i] = new Bullet(renderer, { dest.x, dest.y }, type);
+			SDL_Log("Create bullet");
+			break;
+		}
+	}
+}
+
+void Player::deleteBullet(int index)
+{
+	if (bullets[index] != nullptr)
+	{
+		delete bullets[index];
+		bullets[index] = nullptr;
+	}
+}
+
+bool Player::checkBulletOut(int index)
+{
+	if (bullets[index]->getDest().y < 0 - bullets[index]->getDest().h)
+	{
+		return true;
+	}
+	return false;
+}
+
+bool Player::bulletExists(int index)
+{
+	if (bullets[index] != nullptr)
+	{
+		return true;
+	}
+	return false;
 }

@@ -28,9 +28,10 @@ SDL_AppResult Game::SDL_AppInit()
 		return SDL_APP_FAILURE;
 	}
 
-	player = new Player(renderer);
+	player = new Player(renderer, SDL_FPoint{ width / 2.0F, height / 2.0F });
 	battle = new Battle(NULL, renderer, player, width, height, FPS);
-	inputHandler = new InputHandler(player);
+
+	inputHandler = new InputHandler(renderer, battle, player);
 
 	return SDL_APP_CONTINUE;
 }
@@ -40,9 +41,6 @@ SDL_AppResult Game::SDL_AppEvent(SDL_Event* event)
 	if (event->type == SDL_EVENT_QUIT) {
 		return SDL_APP_SUCCESS;
 	}
-
-	inputHandler->keyDown();
-	inputHandler->keyUp();
 
 	return SDL_APP_CONTINUE;
 }
@@ -77,13 +75,16 @@ void Game::SDL_AppQuit()
 
 void Game::update()
 {
+	inputHandler->keyDown();
+	inputHandler->keyUp();
+
 	battle->update();
 }
 
 void Game::draw()
 {
 	SDL_SetRenderDrawColor(renderer, 30, 30, 30, 255);
-	SDL_RenderClear(renderer);
+	SDL_RenderClear(renderer);	
 
 	battle->draw();
 

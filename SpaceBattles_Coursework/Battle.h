@@ -1,6 +1,7 @@
 #pragma once
 
 #include <SDL3/SDL.h>
+#include "CollisionManager.h"
 #include "Player.h"
 #include "CometManager.h"
 
@@ -13,8 +14,15 @@ public:
 
 	void update();
 	void draw();
+
+	void collision();
+
+	bool getGameOver() { return gameOver; };
+	void setGameOver(bool gameOver) { this->gameOver = gameOver; };
+
 private:
 	SDL_Renderer* renderer;
+	CollisionManager* collisionManager;
 	Player* player;
 	CometManager* cometManager;
 	int windowWidth;
@@ -24,5 +32,7 @@ private:
 	int FPS;
 	int spawnInSecondsComets;
 	int maxCountComets;
+
+	bool gameOver;
 };
 

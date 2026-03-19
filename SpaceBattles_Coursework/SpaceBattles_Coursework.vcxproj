@@ -134,6 +134,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Battle.cpp" />
+    <ClCompile Include="Bullet.cpp" />
+    <ClCompile Include="CollisionManager.cpp" />
     <ClCompile Include="Comet.cpp" />
     <ClCompile Include="CometManager.cpp" />
     <ClCompile Include="Entity.cpp" />
@@ -144,6 +146,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Battle.h" />
+    <ClInclude Include="Bullet.h" />
+    <ClInclude Include="CollisionManager.h" />
     <ClInclude Include="Comet.h" />
     <ClInclude Include="CometManager.h" />
     <ClInclude Include="Entity.h" />

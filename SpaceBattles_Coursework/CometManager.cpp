@@ -85,31 +85,31 @@ void CometManager::createRandomComet()
 		{
 		case COMET_1:
 			src = { 0, 0, 6, 5 };
-			dest = { SDL_rand(windowWidth) - src.w, 0 - SDL_rand(windowHeight) - src.h, src.w * scale, src.h * scale };
+			dest = { SDL_rand(windowWidth - src.w * scale) * 1.0F, 0 - SDL_rand(windowHeight) - src.h * scale, src.w * scale, src.h * scale };
 
 			comets[findIdToCreate] = new Comet(renderer, src, dest, "assets/entity/comets/comet_1.png", 2);
 			break;
 		case COMET_2:
 			src = { 0, 0, 7, 7 };
-			dest = { SDL_rand(windowWidth) - src.w, 0 - SDL_rand(windowHeight) - src.h, src.w * scale, src.h * scale };
+			dest = { SDL_rand(windowWidth - src.w * scale) * 1.0F, 0 - SDL_rand(windowHeight) - src.h * scale, src.w * scale, src.h * scale };
 
 			comets[findIdToCreate] = new Comet(renderer, src, dest, "assets/entity/comets/comet_2.png", 2);
 			break;
 		case COMET_3:
 			src = { 0, 0, 11, 9 };
-			dest = { SDL_rand(windowWidth) - src.w, 0 - SDL_rand(windowHeight) - src.h, src.w * scale, src.h * scale };
+			dest = { SDL_rand(windowWidth - src.w * scale) * 1.0F, 0 - SDL_rand(windowHeight) - src.h * scale, src.w * scale, src.h * scale };
 
 			comets[findIdToCreate] = new Comet(renderer, src, dest, "assets/entity/comets/comet_3.png", 1);
 			break;
 		case COMET_4:
 			src = { 0, 0, 12, 12 };
-			dest = { SDL_rand(windowWidth) - src.w, 0 - SDL_rand(windowHeight) - src.h, src.w * scale, src.h * scale };
+			dest = { SDL_rand(windowWidth - src.w * scale) * 1.0F, 0 - SDL_rand(windowHeight) - src.h * scale, src.w * scale, src.h * scale };
 
 			comets[findIdToCreate] = new Comet(renderer, src, dest, "assets/entity/comets/comet_4.png", 1);
 			break;
 		case COMET_5:
 			src = { 0, 0, 16, 8 };
-			dest = { SDL_rand(windowWidth) - src.w, 0 - SDL_rand(windowHeight) - src.h, src.w * scale, src.h * scale };
+			dest = { SDL_rand(windowWidth - src.w * scale) * 1.0F, 0 - SDL_rand(windowHeight) - src.h * scale, src.w * scale, src.h * scale };
 
 			comets[findIdToCreate] = new Comet(renderer, src, dest, "assets/entity/comets/comet_5.png", 1);
 			break;
@@ -146,6 +146,15 @@ bool CometManager::checkCometsOut(int id)
 		return true;
 	}
 
+	return false;
+}
+
+bool CometManager::cometExists(int id)
+{
+	if (comets[id])
+	{
+		return true;
+	}
 	return false;
 }
 

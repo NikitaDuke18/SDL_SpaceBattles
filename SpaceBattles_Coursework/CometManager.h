@@ -26,6 +26,12 @@ public:
 
 	void spawnComet(int iterateSpawnInSeconds);
 	bool checkCometsOut(int id);
+	bool cometExists(int id);
+
+	int getSize() { return size; };
+	void setSize(int size) { this->size = size; };
+
+	SDL_FRect getCometDest(int id) { return comets[id]->getDest(); };
 private:
 	SDL_Renderer* renderer;
 	Comet** comets;
