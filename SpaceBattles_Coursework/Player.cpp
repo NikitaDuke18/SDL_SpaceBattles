@@ -1,7 +1,10 @@
 #include "Player.h"
 
-Player::Player(SDL_Renderer* renderer, SDL_FPoint position)
+Player::Player(SDL_Renderer* renderer, SDL_FPoint position, int width, int height)
 {
+	this->width = width;
+	this->height = height;
+
 	texture = IMG_LoadTexture(renderer, "assets/entity/player/player_atlas.png");
 	SDL_SetTextureScaleMode(texture, SDL_SCALEMODE_NEAREST);
 	src = {0, 0, 8, 16};
@@ -9,6 +12,8 @@ Player::Player(SDL_Renderer* renderer, SDL_FPoint position)
 	dest = { position.x, position.y, src.w * scale, src.h * scale };
 	speed = 4;
 	HP = 3;
+	bombs = 0;
+	score = 0;
 
 	bulletsSize = 40;
 	bullets = new Bullet*[bulletsSize];
@@ -16,7 +21,7 @@ Player::Player(SDL_Renderer* renderer, SDL_FPoint position)
 	{
 		bullets[i] = nullptr;
 	}
-	numberOfShots = 20;
+	//numberOfShots = 20;
 }
 
 Player::~Player()
@@ -32,6 +37,24 @@ Player::~Player()
 		}
 	}
 	delete[] bullets;
+}
+
+void Player::setup()
+{
+	dest.x = width / 2;
+	dest.y = height / 2;
+	HP = 3;
+	bombs = 0;
+	score = 0;
+
+	for (int i = 0; i < bulletsSize; i++)
+	{
+		if (bullets[i] != nullptr)
+		{
+			delete bullets[i];
+			bullets[i] = nullptr;
+		}
+	}
 }
 
 void Player::update()
@@ -105,6 +128,11 @@ bool Player::lostHP(int damage)
 	return false;
 }
 
+void Player::addScore(int score)
+{
+	this->score += score;
+}
+
 void Player::shoot(SDL_Renderer* renderer, int seconds)
 {
 	BulletType type;
@@ -126,7 +154,7 @@ void Player::shoot(SDL_Renderer* renderer, int seconds)
 	{
 		if (bullets[i] == nullptr)
 		{
-			bullets[i] = new Bullet(renderer, { dest.x, dest.y }, type);
+			bullets[i] = new Bullet(renderer, { dest.x + dest.w / 2, dest.y }, type);
 			SDL_Log("Create bullet");
 			break;
 		}

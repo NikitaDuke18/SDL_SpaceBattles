@@ -25,9 +25,22 @@ CometManager::~CometManager()
 		if (comets[i])
 		{
 			delete comets[i];
+			comets[i] = nullptr;
 		}
 	}
 	delete[] comets;
+}
+
+void CometManager::setup()
+{
+	for (int i = 0; i < size; i++)
+	{
+		if (comets[i])
+		{
+			delete comets[i];
+			comets[i] = nullptr;
+		}
+	}
 }
 
 void CometManager::update()

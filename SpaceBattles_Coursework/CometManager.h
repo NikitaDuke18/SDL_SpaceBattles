@@ -18,6 +18,8 @@ public:
 	CometManager(SDL_Renderer* renderer, const int maxCountComets, const int iterateSpawnInSeconds, int windowWidth, int windowHeight);
 	~CometManager();
 
+	void setup();
+
 	void update();
 	void draw();
 
@@ -31,6 +33,7 @@ public:
 	int getSize() { return size; };
 	void setSize(int size) { this->size = size; };
 
+	Comet* getComet(int id) { return comets[id]; };
 	SDL_FRect getCometDest(int id) { return comets[id]->getDest(); };
 private:
 	SDL_Renderer* renderer;

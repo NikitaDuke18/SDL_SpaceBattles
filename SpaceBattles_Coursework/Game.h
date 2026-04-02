@@ -1,9 +1,13 @@
 #pragma once
 
 #include <SDL3/SDL.h>
+#include <SDL3_ttf/SDL_ttf.h>
+
 #include "Battle.h"
 #include "InputHandler.h"
 #include "Player.h"
+#include "SceneManager.h"
+#include "UI.h"
 
 class Game
 {
@@ -23,8 +27,12 @@ private:
 	SDL_Window* window;
 	SDL_Renderer* renderer;
 
+	TTF_Font* font_48;
+	TTF_Font* font_24;
+
 	int width;
 	int height;
+	bool* quit;
 
 	// FPS
 	const int FPS = 120;
@@ -40,6 +48,8 @@ private:
 	Battle* battle = nullptr;
 	InputHandler* inputHandler = nullptr;
 	Player* player = nullptr;
+
+	SceneManager* sceneManager;
 };
 
 	

@@ -23,15 +23,38 @@ SDL_AppResult Game::SDL_AppInit()
 		return SDL_APP_FAILURE;
 	}
 
+	if (!TTF_Init())
+	{
+		SDL_Log("Couldn't initialize ttf: %s", SDL_GetError());
+	}
+
 	if (!SDL_CreateWindowAndRenderer("Space battles", width, height, SDL_WINDOW_RESIZABLE, &window, &renderer)) {
 		SDL_Log("Couldn't create window/renderer: %s", SDL_GetError());
 		return SDL_APP_FAILURE;
 	}
 
-	player = new Player(renderer, SDL_FPoint{ width / 2.0F, height / 2.0F });
-	battle = new Battle(NULL, renderer, player, width, height, FPS);
+	font_48 = TTF_OpenFont("assets/fonts/waltographUI.ttf", 48);
 
-	inputHandler = new InputHandler(renderer, battle, player);
+	if (!font_48)
+	{
+		SDL_Log("Error load font_48: %s", SDL_GetError());
+	}
+
+	font_24 = TTF_OpenFont("assets/fonts/waltographUI.ttf", 24);
+
+	if (!font_24)
+	{
+		SDL_Log("Error load font_24: %s", SDL_GetError());
+	}
+
+	quit = new bool(false);
+
+	player = new Player(renderer, SDL_FPoint{ width / 2.0F, height / 2.0F }, width, height);
+	battle = new Battle(NULL, renderer, font_48, player, width, height, FPS);
+
+	sceneManager = new SceneManager(renderer, font_48, quit, width, height, MENU, battle);
+
+	inputHandler = new InputHandler(renderer, sceneManager, battle, player);
 
 	return SDL_APP_CONTINUE;
 }
@@ -64,13 +87,28 @@ SDL_AppResult Game::SDL_AppIterate()
 		fpsTimer = now;
 	}
 
+	if (*quit)
+	{
+		return SDL_APP_SUCCESS;
+	}
+
 	return SDL_APP_CONTINUE;
 }
 
 void Game::SDL_AppQuit()
 {
+	delete quit;
 	delete player;
+	delete battle;
 	delete inputHandler;
+	delete sceneManager;
+
+	// Close font
+	TTF_CloseFont(font_48);
+	TTF_CloseFont(font_24);
+
+	TTF_Quit();
+	SDL_Quit();
 }
 
 void Game::update()
@@ -78,7 +116,7 @@ void Game::update()
 	inputHandler->keyDown();
 	inputHandler->keyUp();
 
-	battle->update();
+	sceneManager->update();
 }
 
 void Game::draw()
@@ -86,7 +124,7 @@ void Game::draw()
 	SDL_SetRenderDrawColor(renderer, 30, 30, 30, 255);
 	SDL_RenderClear(renderer);	
 
-	battle->draw();
+	sceneManager->draw(renderer);
 
 	SDL_RenderPresent(renderer);
 }

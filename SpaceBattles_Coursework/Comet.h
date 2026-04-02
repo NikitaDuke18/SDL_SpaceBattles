@@ -12,6 +12,7 @@ public:
 	void update();
 	void draw(SDL_Renderer* renderer);
 
+	int getScore() { return score; };
 private:
 	int score;
 
