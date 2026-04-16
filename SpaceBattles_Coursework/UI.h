@@ -2,7 +2,7 @@
 
 #include <SDL3_ttf/SDL_ttf.h>
 #include <string>
-#include "Player.h"
+#include "Player.h" //
 
 struct Items
 {
@@ -33,6 +33,8 @@ public:
 
 	void updateHP();
 	void updateScore();
+
+	SDL_FRect getBarDest() { return barDest; };
 private:
 	SDL_Renderer* renderer;
 	TTF_Font* font;

@@ -36,11 +36,15 @@ public:
 	void setRight(bool right) { this->right = right; };
 
 	int getHP() { return HP; };
+	void setHP(int HP) { this->HP = HP; };
+
 	int getBomb() { return bombs; };
 
 	int getScore() { return score; };
+	void setScore(int score) { this->score = score; };
 
 	int getBulletsSize() { return bulletsSize; };
+	Bullet* getBullet(int index) { return bullets[index]; };
 
 	SDL_FRect getBulletDest(int index) { return bullets[index]->getDest(); };
 

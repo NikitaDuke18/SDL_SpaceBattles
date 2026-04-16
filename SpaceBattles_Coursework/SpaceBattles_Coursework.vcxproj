@@ -134,31 +134,45 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Battle.cpp" />
+    <ClCompile Include="Boss.cpp" />
+    <ClCompile Include="BrotherGreeny.cpp" />
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="CollisionManager.cpp" />
     <ClCompile Include="Comet.cpp" />
     <ClCompile Include="CometManager.cpp" />
+    <ClCompile Include="EnemyManager.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="Greeny.cpp" />
     <ClCompile Include="InputHandler.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Oranges.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="SaveLoad.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="UI.cpp" />
+    <ClCompile Include="Void.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Battle.h" />
+    <ClInclude Include="Boss.h" />
+    <ClInclude Include="BrotherGreeny.h" />
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="CollisionManager.h" />
     <ClInclude Include="Comet.h" />
     <ClInclude Include="CometManager.h" />
+    <ClInclude Include="EnemyManager.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="Greeny.h" />
     <ClInclude Include="InputHandler.h" />
+    <ClInclude Include="Oranges.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="SaveLoad.h" />
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="Text.h" />
     <ClInclude Include="UI.h" />
+    <ClInclude Include="Void.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

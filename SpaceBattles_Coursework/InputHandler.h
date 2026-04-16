@@ -2,13 +2,14 @@
 
 #include <SDL3/SDL.h>
 #include "SceneManager.h"
-#include "Battle.h"
-#include "Player.h"
+//#include "Battle.h"
+//#include "Player.h"
+#include "SaveLoad.h"
 
 class InputHandler
 {
 public:
-	InputHandler(SDL_Renderer* renderer, SceneManager* sceneManager, Battle* battle, Player* player);
+	InputHandler(SDL_Renderer* renderer, SceneManager* sceneManager, Battle* battle, Player* player, SaveLoad* saveLoad);
 	~InputHandler();
 
 	void keyDown();
@@ -19,7 +20,8 @@ private:
 	SceneManager* sceneManager;
 	Battle* battle;
 	Player* player = nullptr;
-	
+	SaveLoad* saveLoad;
+
 	Uint64 lastKeyPressTime;
 	Uint64 delayMS;
 

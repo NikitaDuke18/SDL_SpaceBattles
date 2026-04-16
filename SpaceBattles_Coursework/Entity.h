@@ -3,6 +3,15 @@
 #include <SDL3/SDL.h>
 #include <SDL3_image/SDL_image.h>
 
+enum DIRECTION
+{
+	UP,
+	DOWN,
+	LEFT,
+	RIGHT,
+	NONE
+};
+
 class Entity
 {
 public:
@@ -19,6 +28,8 @@ public:
 
 	int getSpeed();
 	void setSpeed(int speed);
+
+	void setPosition(SDL_FPoint position) { dest.x = position.x; dest.y = position.y; };
 
 protected:
 	SDL_Texture* texture;

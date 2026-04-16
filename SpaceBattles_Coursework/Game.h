@@ -3,11 +3,12 @@
 #include <SDL3/SDL.h>
 #include <SDL3_ttf/SDL_ttf.h>
 
-#include "Battle.h"
+//#include "Battle.h"
 #include "InputHandler.h"
 #include "Player.h"
-#include "SceneManager.h"
+//#include "SceneManager.h"
 #include "UI.h"
+#include "SaveLoad.h"
 
 class Game
 {
@@ -28,7 +29,7 @@ private:
 	SDL_Renderer* renderer;
 
 	TTF_Font* font_48;
-	TTF_Font* font_24;
+	TTF_Font* font_32;
 
 	int width;
 	int height;
@@ -45,6 +46,7 @@ private:
 	double delta;
 	double fpsElapsed;
 
+	SaveLoad* saveLoad = nullptr;
 	Battle* battle = nullptr;
 	InputHandler* inputHandler = nullptr;
 	Player* player = nullptr;

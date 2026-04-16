@@ -25,6 +25,8 @@ public:
 	void update() override;
 	void draw(SDL_Renderer* renderer) override;
 
+	int getDamage() { return damage; };
+
 private:
 	int damage;
 };

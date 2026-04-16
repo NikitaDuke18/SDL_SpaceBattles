@@ -1,11 +1,12 @@
 #include "InputHandler.h"
 
-InputHandler::InputHandler(SDL_Renderer* renderer, SceneManager* sceneManager, Battle* battle, Player* player)
+InputHandler::InputHandler(SDL_Renderer* renderer, SceneManager* sceneManager, Battle* battle, Player* player, SaveLoad* saveLoad)
 {
 	this->renderer = renderer;
 	this->sceneManager = sceneManager;
 	this->battle = battle;
 	this->player = player;
+	this->saveLoad = saveLoad;
 
 	lastKeyPressTime = 0;
 	delayMS = 200;
@@ -128,29 +129,48 @@ void InputHandler::keyDown()
 	case BATTLE:
 		if (!battle->getGameOver())
 		{
-			if (keys[SDL_SCANCODE_W]) {
-				player->setUp(true);
+			if (!battle->getPause())
+			{
+				if (keys[SDL_SCANCODE_W]) {
+					player->setUp(true);
+				}
+				if (keys[SDL_SCANCODE_S]) {
+					player->setDown(true);
+				}
+				if (keys[SDL_SCANCODE_A]) {
+					player->setLeft(true);
+				}
+				if (keys[SDL_SCANCODE_D]) {
+					player->setRight(true);
+				}
+
+				if (keys[SDL_SCANCODE_RETURN])
+				{
+					updateCount++;
+					enterDown = true;
+				}
 			}
-			if (keys[SDL_SCANCODE_S]) {
-				player->setDown(true);
-			}
-			if (keys[SDL_SCANCODE_A]) {
-				player->setLeft(true);
-			}
-			if (keys[SDL_SCANCODE_D]) {
-				player->setRight(true);
+			else
+			{
+				if (keys[SDL_SCANCODE_ESCAPE])
+				{
+					saveLoad->savePlayer(player);
+					sceneManager->changeScene(MENU);
+				}
 			}
 
-			if (keys[SDL_SCANCODE_RETURN])
+			if (keys[SDL_SCANCODE_K])
 			{
-				updateCount++;
-				enterDown = true;
+				battle->changePause();
+				SDL_Delay(200);
 			}
 		}
 		else
 		{
 			if (keys[SDL_SCANCODE_SPACE])
 			{
+				saveLoad->deletePlayerTXT();
+				saveLoad->saveMaxScore(player);
 				sceneManager->changeScene(MENU);
 			}
 		}
@@ -166,27 +186,30 @@ void InputHandler::keyUp()
 	{
 		const bool* keys = SDL_GetKeyboardState(NULL);
 
-		if (!keys[SDL_SCANCODE_W]) {
-			player->setUp(false);
-		}
-		if (!keys[SDL_SCANCODE_S]) {
-			player->setDown(false);
-		}
-		if (!keys[SDL_SCANCODE_A]) {
-			player->setLeft(false);
-		}
-		if (!keys[SDL_SCANCODE_D]) {
-			player->setRight(false);
-		}
-
-		if (!keys[SDL_SCANCODE_RETURN] && enterDown)
+		if (!battle->getPause())
 		{
-			if (updateCount >= 10)
-			{
-				player->shoot(renderer, updateCount / 120);
-				updateCount = 0;
+			if (!keys[SDL_SCANCODE_W]) {
+				player->setUp(false);
 			}
-			enterDown = false;
+			if (!keys[SDL_SCANCODE_S]) {
+				player->setDown(false);
+			}
+			if (!keys[SDL_SCANCODE_A]) {
+				player->setLeft(false);
+			}
+			if (!keys[SDL_SCANCODE_D]) {
+				player->setRight(false);
+			}
+
+			if (!keys[SDL_SCANCODE_RETURN] && enterDown)
+			{
+				if (updateCount >= 10)
+				{
+					player->shoot(renderer, updateCount / 120);
+					updateCount = 0;
+				}
+				enterDown = false;
+			}
 		}
 	}
 }

@@ -40,21 +40,22 @@ SDL_AppResult Game::SDL_AppInit()
 		SDL_Log("Error load font_48: %s", SDL_GetError());
 	}
 
-	font_24 = TTF_OpenFont("assets/fonts/waltographUI.ttf", 24);
+	font_32 = TTF_OpenFont("assets/fonts/waltographUI.ttf", 32);
 
-	if (!font_24)
+	if (!font_32)
 	{
 		SDL_Log("Error load font_24: %s", SDL_GetError());
 	}
 
 	quit = new bool(false);
 
+	saveLoad = new SaveLoad();
 	player = new Player(renderer, SDL_FPoint{ width / 2.0F, height / 2.0F }, width, height);
-	battle = new Battle(NULL, renderer, font_48, player, width, height, FPS);
+	battle = new Battle(NULL, renderer, font_48, font_32, player, saveLoad, width, height, FPS);
 
 	sceneManager = new SceneManager(renderer, font_48, quit, width, height, MENU, battle);
 
-	inputHandler = new InputHandler(renderer, sceneManager, battle, player);
+	inputHandler = new InputHandler(renderer, sceneManager, battle, player, saveLoad);
 
 	return SDL_APP_CONTINUE;
 }
@@ -105,7 +106,7 @@ void Game::SDL_AppQuit()
 
 	// Close font
 	TTF_CloseFont(font_48);
-	TTF_CloseFont(font_24);
+	TTF_CloseFont(font_32);
 
 	TTF_Quit();
 	SDL_Quit();

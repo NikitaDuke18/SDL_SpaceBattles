@@ -170,4 +170,3 @@ bool CometManager::cometExists(int id)
 	}
 	return false;
 }
-

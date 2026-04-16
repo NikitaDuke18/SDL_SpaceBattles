@@ -55,6 +55,8 @@ void Player::setup()
 			bullets[i] = nullptr;
 		}
 	}
+
+	//saveLoad->loadPlayer(this);
 }
 
 void Player::update()
@@ -119,7 +121,7 @@ void Player::animationPlay()
 
 bool Player::lostHP(int damage)
 {
-	HP -= 1;
+	HP -= damage;
 	if (HP <= 0)
 	{
 		return true;

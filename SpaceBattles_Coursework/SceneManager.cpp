@@ -34,6 +34,8 @@ SceneManager::~SceneManager()
 	{
 		SDL_DestroyTexture(item.texture);
 	}
+
+	maxScoreRecord.destroyTexture();
 }
 
 void SceneManager::setupItems(SDL_Renderer* renderer, TTF_Font* font, int width, int height)
@@ -96,6 +98,13 @@ void SceneManager::setupItems(SDL_Renderer* renderer, TTF_Font* font, int width,
 		startX += item.dest.w + 20.0f;
 		SDL_DestroySurface(textSurface);
 	}
+
+	SaveLoad saveLoad; 
+	int score = saveLoad.getMaxScore();
+	maxScoreRecord.text = "YOUR MAX RECORD: " + std::to_string(score);
+	maxScoreRecord.initialize(renderer, font, textColorWhite);
+	maxScoreRecord.dest.x = maxScoreRecord.dest.w / 4;
+	maxScoreRecord.dest.y = height - maxScoreRecord.dest.h * 2;
 }
 
 void SceneManager::update()
@@ -135,6 +144,8 @@ void SceneManager::draw(SDL_Renderer* renderer)
 
 			SDL_RenderTexture(renderer, item.texture, NULL, &item.dest);
 		}
+
+		SDL_RenderTexture(renderer, maxScoreRecord.texture, NULL, &maxScoreRecord.dest);
 		
 		break;
 	case SETTINGS:

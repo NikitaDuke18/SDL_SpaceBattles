@@ -82,6 +82,8 @@ private:
 		{"4"}
 	};
 
+	Text maxScoreRecord;
+
 	int currentChoice;
 
 	bool* quit;
