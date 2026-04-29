@@ -126,7 +126,6 @@ bool Player::lostHP(int damage)
 	{
 		return true;
 	}
-	SDL_Log("HP: %i", HP);
 	return false;
 }
 
@@ -157,7 +156,6 @@ void Player::shoot(SDL_Renderer* renderer, int seconds)
 		if (bullets[i] == nullptr)
 		{
 			bullets[i] = new Bullet(renderer, { dest.x + dest.w / 2, dest.y }, type);
-			SDL_Log("Create bullet");
 			break;
 		}
 	}

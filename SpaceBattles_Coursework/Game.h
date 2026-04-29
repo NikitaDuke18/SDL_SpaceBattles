@@ -2,6 +2,7 @@
 
 #include <SDL3/SDL.h>
 #include <SDL3_ttf/SDL_ttf.h>
+#include <SDL3_mixer/SDL_mixer.h>
 
 //#include "Battle.h"
 #include "InputHandler.h"
@@ -37,12 +38,14 @@ private:
 
 	// FPS
 	const int FPS = 120;
-	const double frameDuraction = 1.0 / FPS;
+	//const double frameDuraction = 1.0 / FPS;
+	Uint64 frameDurationNS = 1000000000 / FPS;
 	Uint64 freq;
 	Uint64 last;
 	int frameCount;
 	Uint64 fpsTimer;
 	Uint64 now;
+	Uint64 accumulator = 0;
 	double delta;
 	double fpsElapsed;
 

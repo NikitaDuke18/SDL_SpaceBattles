@@ -9,6 +9,7 @@
 #include "Boss.h"
 
 #include "CollisionManager.h"
+#include "Audio.h"
 //#include "UI.h"
 
 class EnemyManager
@@ -29,7 +30,11 @@ private:
 	SDL_Renderer* renderer;
 	CollisionManager* collisionManager;
 	UI* ui;
+	Audio* soundFX;
+	std::string soundsEnemy[3] = {"assets/sounds/alien-talk-1.wav", "assets/sounds/alien-talk-2.wav", "assets/sounds/alien-talk-3.wav"};
+
 	Player* player;
+
 	int width;
 	int height;
 

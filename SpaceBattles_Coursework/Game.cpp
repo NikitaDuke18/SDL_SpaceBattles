@@ -7,9 +7,10 @@ Game::Game()
 
 	// FPS
 	freq = SDL_GetPerformanceFrequency();
-	last = SDL_GetPerformanceCounter();
+	last = SDL_GetTicksNS();
 	frameCount = 0;
-	fpsTimer = SDL_GetPerformanceCounter();
+	//fpsTimer = SDL_GetPerformanceCounter();
+	fpsTimer = SDL_GetTicksNS();
 }
 
 Game::~Game()
@@ -30,6 +31,12 @@ SDL_AppResult Game::SDL_AppInit()
 
 	if (!SDL_CreateWindowAndRenderer("Space battles", width, height, SDL_WINDOW_RESIZABLE, &window, &renderer)) {
 		SDL_Log("Couldn't create window/renderer: %s", SDL_GetError());
+		return SDL_APP_FAILURE;
+	}
+
+	if (!MIX_Init())
+	{
+		SDL_Log("Couldn't init SDL_mixer library: %s", SDL_GetError());
 		return SDL_APP_FAILURE;
 	}
 
@@ -71,7 +78,8 @@ SDL_AppResult Game::SDL_AppEvent(SDL_Event* event)
 
 SDL_AppResult Game::SDL_AppIterate()
 {
-	now = SDL_GetPerformanceCounter();
+	/*now = SDL_GetPerformanceCounter();
+
 	delta = (double)(now - last) / freq;
 
 	if (delta >= frameDuraction) {
@@ -83,6 +91,35 @@ SDL_AppResult Game::SDL_AppIterate()
 
 	fpsElapsed = (double)(now - fpsTimer) / freq;
 	if (fpsElapsed >= 1.0) {
+		SDL_Log("FPS: %i", frameCount);
+		frameCount = 0;
+		fpsTimer = now;
+	}*/
+
+
+	now = SDL_GetTicksNS();
+
+	accumulator += now - last;
+
+	last = now;
+
+	bool shouldDraw = false;
+	while (accumulator >= frameDurationNS)
+	{
+		accumulator -= frameDurationNS;
+		shouldDraw = true;
+	}
+
+	if (shouldDraw)
+	{
+		update();
+		draw();
+		frameCount++;
+		shouldDraw = false;
+	}
+
+	if (now - fpsTimer >= 1000000000)
+	{
 		SDL_Log("FPS: %i", frameCount);
 		frameCount = 0;
 		fpsTimer = now;
@@ -109,6 +146,7 @@ void Game::SDL_AppQuit()
 	TTF_CloseFont(font_32);
 
 	TTF_Quit();
+	MIX_Quit();
 	SDL_Quit();
 }
 

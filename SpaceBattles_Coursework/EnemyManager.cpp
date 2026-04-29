@@ -5,6 +5,8 @@ EnemyManager::EnemyManager(SDL_Renderer* renderer, CollisionManager* collisionMa
 	this->renderer = renderer;
 	this->collisionManager = collisionManager;
 	this->ui = ui;
+	this->soundFX = new Audio("alien-talk-1.wav");
+
 	this->width = width;
 	this->height = height;
 	this->player = player;
@@ -49,6 +51,8 @@ EnemyManager::~EnemyManager()
 		delete boss;
 		boss = nullptr;
 	}
+
+	delete soundFX;
 }
 
 void EnemyManager::setup()
@@ -308,6 +312,7 @@ void EnemyManager::checkCollision()
 
 					if (boss->getHP() <= 0)
 					{
+						
 						delete boss;
 						boss = nullptr;
 						break;
@@ -322,6 +327,9 @@ bool EnemyManager::createEnemy()
 {
 	if (!greeny && !oranges && !brotherGreeny && !voidBoss && !boss)
 	{
+		soundFX->loadAudio(soundsEnemy[SDL_rand(3)].c_str());
+		soundFX->play();
+
 		switch (currentBoss)
 		{
 		case 0:
@@ -329,6 +337,7 @@ bool EnemyManager::createEnemy()
 			{
 				greeny = new Greeny(renderer, width, height);
 				currentBoss++;
+
 				return true;
 			}
 			break;
@@ -337,32 +346,36 @@ bool EnemyManager::createEnemy()
 			{
 				oranges = new Oranges(renderer, ui, width, height);
 				currentBoss++;
+
+				return true;
 			}
-			return true;
 			break;
 		case 2:
 			if (!brotherGreeny)
 			{
 				brotherGreeny = new BrotherGreeny(renderer, width, height);
 				currentBoss++;
+
+				return true;
 			}
-			return true;
 			break;
 		case 3:
 			if (!voidBoss)
 			{
 				voidBoss = new Void(renderer, width, height, ui);
 				currentBoss++;
+
+				return true;
 			}
-			return true;
 			break;
 		case 4:
 			if (!boss)
 			{
 				boss = new Boss(renderer, width, height);
 				currentBoss++;
+
+				return true;
 			}
-			return true;
 			break;
 		default:
 			if (currentBoss > 4)

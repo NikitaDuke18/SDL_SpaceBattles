@@ -154,24 +154,27 @@ void InputHandler::keyDown()
 			{
 				if (keys[SDL_SCANCODE_ESCAPE])
 				{
-					saveLoad->savePlayer(player);
+					//saveLoad->savePlayer(player);
+					saveLoad->saveMaxScore(player);
 					sceneManager->changeScene(MENU);
+					sceneManager->updateScoreUI(renderer);
 				}
 			}
 
 			if (keys[SDL_SCANCODE_K])
 			{
 				battle->changePause();
-				SDL_Delay(200);
+				SDL_Delay(200); 
 			}
 		}
 		else
 		{
 			if (keys[SDL_SCANCODE_SPACE])
 			{
-				saveLoad->deletePlayerTXT();
+				//saveLoad->deletePlayerTXT();
 				saveLoad->saveMaxScore(player);
 				sceneManager->changeScene(MENU);
+				sceneManager->updateScoreUI(renderer);
 			}
 		}
 		break;

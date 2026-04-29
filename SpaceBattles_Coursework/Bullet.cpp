@@ -12,7 +12,6 @@ Bullet::Bullet(SDL_Renderer* renderer, SDL_FPoint position, BulletType type)
 Bullet::~Bullet()
 {
 	SDL_DestroyTexture(texture);
-	SDL_Log("Bullet destroy");
 }
 
 void Bullet::initializeBullet(SDL_Renderer* renderer, BulletType type)

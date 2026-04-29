@@ -7,6 +7,7 @@
 #include <vector>
 
 #include "Battle.h"
+#include "Audio.h"
 
 enum Scene
 {
@@ -35,6 +36,8 @@ public:
 	void update();
 	void draw(SDL_Renderer* renderer);
 
+	void updateScoreUI(SDL_Renderer* renderer);
+
 	void changeScene(Scene scene);
 	void nextScene();
 	void previousScene();
@@ -47,6 +50,7 @@ public:
 private:
 	Scene currentScene;
 	Battle* battle;
+	Audio* music;
 
 	TTF_Font* font;
 	SDL_Color textColorWhite;
@@ -83,6 +87,9 @@ private:
 	};
 
 	Text maxScoreRecord;
+
+	int width;
+	int height;
 
 	int currentChoice;
 

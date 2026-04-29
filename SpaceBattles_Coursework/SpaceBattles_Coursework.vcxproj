@@ -133,6 +133,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Audio.cpp" />
     <ClCompile Include="Battle.cpp" />
     <ClCompile Include="Boss.cpp" />
     <ClCompile Include="BrotherGreeny.cpp" />
@@ -154,6 +155,7 @@
     <ClCompile Include="Void.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Audio.h" />
     <ClInclude Include="Battle.h" />
     <ClInclude Include="Boss.h" />
     <ClInclude Include="BrotherGreeny.h" />

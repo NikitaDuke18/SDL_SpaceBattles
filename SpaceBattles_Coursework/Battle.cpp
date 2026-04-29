@@ -91,7 +91,7 @@ void Battle::setup(const char pathMap)
 	ui->setup();
 
 	// LOAD
-	saveLoad->loadPlayer(player);
+	//saveLoad->loadPlayer(player);
 	ui->updateScore();
 	// TEST
 	//enemyManager->createEnemy();
@@ -179,7 +179,7 @@ void Battle::collision()
 					{
 						player->addScore(cometManager->getComet(j)->getScore());
 						scoreToSpawnBoss += cometManager->getComet(j)->getScore();
-						SDL_Log("SCORE TO SPAWN: %i", scoreToSpawnBoss);
+						//SDL_Log("SCORE TO SPAWN: %i", scoreToSpawnBoss);
 
 						player->deleteBullet(i);
 						cometManager->deleteComet(j);

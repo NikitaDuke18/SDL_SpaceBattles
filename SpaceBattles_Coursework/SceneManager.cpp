@@ -2,6 +2,9 @@
 
 SceneManager::SceneManager(SDL_Renderer* renderer, TTF_Font* font, bool* quit, int width, int height, Scene scene, Battle* battle)
 {
+	this->width = width;
+	this->height = height;
+
 	this->quit = quit;
 	this->font = font;
 	textColorWhite = { 255, 255, 255, 255 };
@@ -11,6 +14,10 @@ SceneManager::SceneManager(SDL_Renderer* renderer, TTF_Font* font, bool* quit, i
 	
 	this->currentScene = scene;
 	this->battle = battle;
+
+	this->music = new Audio("assets/musics/title--1-.mp3");
+	this->music->loop();
+	this->music->play();
 }
 
 SceneManager::~SceneManager()
@@ -36,10 +43,16 @@ SceneManager::~SceneManager()
 	}
 
 	maxScoreRecord.destroyTexture();
+
+	delete music;
+	music = nullptr;
 }
 
 void SceneManager::setupItems(SDL_Renderer* renderer, TTF_Font* font, int width, int height)
 {
+	this->width = width;
+	this->height = height;
+
 	float startY;
 	float startX;
 
@@ -190,6 +203,16 @@ void SceneManager::draw(SDL_Renderer* renderer)
 	}
 }
 
+void SceneManager::updateScoreUI(SDL_Renderer* renderer)
+{
+	SaveLoad saveLoad;
+	int score = saveLoad.getMaxScore();
+	maxScoreRecord.text = "YOUR MAX RECORD: " + std::to_string(score);
+	maxScoreRecord.initialize(renderer, font, textColorWhite);
+	maxScoreRecord.dest.x = maxScoreRecord.dest.w / 4;
+	maxScoreRecord.dest.y = height - maxScoreRecord.dest.h * 2;
+}
+
 void SceneManager::changeScene(Scene scene)
 {
 	this->currentScene = scene;
@@ -199,6 +222,8 @@ void SceneManager::changeScene(Scene scene)
 	case MENU:
 		currentChoice = 0;
 		menuItems[currentChoice].isHovered = true;
+		music->loadAudio("assets/musics/title--1-.mp3");
+		music->play();
 		break;
 	case CHOOSE_BATTLE:
 		break;
@@ -244,6 +269,8 @@ void SceneManager::nextScene()
 		case 0:
 			currentScene = BATTLE;
 			battle->setup(NULL);
+			music->loadAudio("assets/musics/missionobjective--1-.mp3");
+			music->play();
 			break;
 		case 1:
 			currentScene = MAP_BATTLE;
